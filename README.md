@@ -1,4 +1,4 @@
-# TokopediaCase
+# TokopediaCaseSQL
 The dataset that we used in this case contains 4 tables:
 
 [customer_detail](https://drive.google.com/file/d/1vGkvIBs30dYItfbIplDc2eTJkLKrYaJS/view?usp=sharing)

@@ -1,8 +1,12 @@
 # TokopediaCase
 The dataset that we used in this case contains 4 tables:
+
 [customer_detail](https://drive.google.com/file/d/1vGkvIBs30dYItfbIplDc2eTJkLKrYaJS/view?usp=sharing)
+
 [order_detail](https://drive.google.com/file/d/11Ekay2elqMoD6KpNxnKI9n3PJldRober/view?usp=sharing)
+
 [payment_detail](https://drive.google.com/file/d/1Nl5qVB95tVq2qYizIFQV_nyYySw1WOWl/view?usp=sharing)
+
 [sku_detail](https://drive.google.com/file/d/11AS-dlvpWdZBzLrw98rDFx0tk3PD1Hjf/view?usp=sharing)
 
 In SQL, we use the dataset to:
@@ -32,16 +36,24 @@ In SQL, we use the dataset to:
           GROUP BY MONTH(order_date)
           ORDER BY MONTH(order_date) ASC`
 
-3. Identify category with highest sales in 2022
 
-SELECT SUM(od.after_discount)nilai_transaksi, sd.category
-FROM order_detail od JOIN sku_detail sd ON od.idSku = sd.idSku
-WHERE od.is_valid = 1 AND order_date BETWEEN '2022-01-01' AND '2022-12-31'
-GROUP BY sd.category
-ORDER BY SUM(after_discount) DESC
+2. Identify category with highest sales in 2022
 
-SELECT SUM(after_discount)total_nilai_transaksi22 
-FROM order_detail
+
+    a. Showing transaction value per category in 2022
+    
+        ```
+           SELECT SUM(od.after_discount)nilai_transaksi, sd.category
+           FROM order_detail od JOIN sku_detail sd ON od.idSku = sd.idSku
+           WHERE od.is_valid = 1 AND order_date BETWEEN '2022-01-01' AND '2022-12-31'
+           GROUP BY sd.category
+           ORDER BY SUM(after_discount) DESC`
+    
+    
+     b. Shows the total sum of all transactions in 2022
+                
+           SELECT SUM(after_discount)total_nilai_transaksi22 
+           FROM order_detail`
 
 
 

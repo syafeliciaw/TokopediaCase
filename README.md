@@ -107,6 +107,56 @@ In SQL, we use the dataset to:
 
 
 * using the COALESCE method so that NULL data can be handled by returning another value
-        
+  
+4. Show top 5 payment method in 2022
+   ```
+   WITH top_5 AS(
+     SELECT COUNT (DISTINCT od.idOrder) total_payment,
+   CAST (pd.payment_method as varchar (500)) payment_method
+   FROM order_detail od JOIN payment_detail pd
+     ON od.idPayment = pd.idPayment WHERE od.is_valid = 1
+     AND YEAR(od.order_date)='2022'
+     GROUP BY CAST (pd.payment_method as varchar (500)) )
+
+   SELECT TOP 5 total_payment, payment_method
+   FROM top_5
+   ORDER BY top_5.total_payment DESC
+
+5. Sorting brand name based on the transaction value in Mobiles & Tablets category
+   ```
+   SELECT 
+    CASE
+        WHEN sd.sku_name LIKE '%Samsung%' THEN 'Samsung'
+        WHEN sd.sku_name LIKE '%Apple%' OR LOWER(CAST(sd.sku_name AS VARCHAR)) LIKE '%iphone%'
+            OR LOWER(CAST(sd.sku_name AS VARCHAR)) LIKE '%macbook%' THEN 'Apple'
+        WHEN sd.sku_name LIKE '%Sony%' THEN 'Sony'
+        WHEN sd.sku_name LIKE '%Huawei%' THEN 'Huawei'
+        WHEN sd.sku_name LIKE '%Lenovo%' THEN 'Lenovo'
+    END AS nama_produk, 
+    SUM(od.after_discount) AS total_nilai_transaksi
+   FROM order_detail od
+   JOIN sku_detail sd ON od.idSku = sd.idSku
+
+   WHERE od.is_valid = 1
+     AND (
+     sd.sku_name LIKE '%Samsung%' OR
+     sd.sku_name LIKE '%Apple%' OR
+     LOWER(CAST(sd.sku_name AS VARCHAR)) LIKE '%iphone%' OR
+     LOWER(CAST(sd.sku_name AS VARCHAR)) LIKE '%macbook%' OR
+     sd.sku_name LIKE '%Sony%' OR
+     sd.sku_name LIKE '%Huawei%' OR
+     sd.sku_name LIKE '%Lenovo%'
+     )
+    
+     GROUP BY 
+        CASE
+            WHEN sd.sku_name LIKE '%Samsung%' THEN 'Samsung'
+            WHEN sd.sku_name LIKE '%Apple%' OR LOWER(CAST(sd.sku_name AS VARCHAR)) LIKE '%iphone%'
+                OR LOWER(CAST(sd.sku_name AS VARCHAR)) LIKE '%macbook%' THEN 'Apple'
+            WHEN sd.sku_name LIKE '%Sony%' THEN 'Sony'
+            WHEN sd.sku_name LIKE '%Huawei%' THEN 'Huawei'
+            WHEN sd.sku_name LIKE '%Lenovo%' THEN 'Lenovo'
+        END
+     ORDER BY total_nilai_transaksi DESC
 
 
